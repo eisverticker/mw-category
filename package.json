@@ -1,0 +1,22 @@
+{
+  "name": "mwcategory",
+  "version": "1.0.0",
+  "description": "Retrieve category items of a mediawiki-compatible source",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mediawiki",
+    "wiktionary",
+    "wikipedia",
+    "categories"
+  ],
+  "author": "eisverticker <eisverticker@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "got": "^7.1.0",
+    "mustache": "^2.3.0",
+    "url-assembler": "^1.2.8"
+  }
+}
