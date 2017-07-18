@@ -1,9 +1,3 @@
-/**
- * Get Category content from mediawiki source
- * NOTE: This library is promise based
- * @author eisverticker<eisverticker@gmail.com>
- */
-
 /*
  * # Dependencies
  */
@@ -11,6 +5,8 @@
 const got = require('got');
 // ## build urls for the requests
 const urlAssembler = require('url-assembler');
+// template engine for small templates (insert language e.g.)
+const mustache = require('mustache');
 
 /**
  * Represents a mediawiki category entry
@@ -28,9 +24,10 @@ class CategoryItem {
 }
 
 /**
- * Loads Category Entries from MediaWiki-Source
+ * Loads category members from the given MediaWiki-Source
  *  Category items cannot always be retrieved all at once (500 at most)
  *  so we have to make multiple requests to the server
+ * @private
  * @param {string} source
  * @param {string} categoryTitle
  * @param {CategoryItem[]} previousItems
@@ -43,7 +40,7 @@ function getCategoryItems(source, categoryTitle, previousItems, continueTerm){
     action: 'query',
     format: 'json',
     list: 'categorymembers',
-    cmtitle: 'Category:' + categoryTitle,
+    cmtitle: categoryTitle,
     cmlimit: 500 // maximum (2017)
   };
   // ## continue term is being used by mediawiki to identify
@@ -72,6 +69,8 @@ function getCategoryItems(source, categoryTitle, previousItems, continueTerm){
           return Promise.resolve(previousItems.concat(categories));
         }else{
           return getCategoryItems(
+            source,
+            categoryTitle,
             previousItems.concat(categories),
             bodyJson.continue.cmcontinue
           );
@@ -85,7 +84,7 @@ function getCategoryItems(source, categoryTitle, previousItems, continueTerm){
 /**
  * Encapsulates utility methods for a given mediawiki-compatible source
  */
-class Category {
+class CategoryLoader {
 
   /**
    * Initalizes Category-Object by (saving source url)
@@ -105,8 +104,39 @@ class Category {
   }
 }
 
+/**
+ * Define common remote sources with MediaWiki-API
+ */
+const MwSources = {
+  Wikipedia: 'https://{{language}}.wikipedia.org/w/api.php',
+  Wiktionary: 'https://{{language}}.wiktionary.org/w/api.php'
+};
+
+/**
+ * Builds source urls for common mediawiki projects
+ * NOTE: the urls may change and thus they might be outdated
+ * @param {string} urlMustacheTemplate
+ * @param {string} mwLanguageCode
+ * @return {string}
+ */
+function buildSourceUrl(urlMustacheTemplate, mwLanguageCode) {
+  return mustache.render(urlMustacheTemplate, {
+    language: mwLanguageCode
+  });
+}
+
+/**
+ * Get Category content from mediawiki source.
+ * This library is promise based.
+ * @module mw-category
+ * @license MIT
+ * @author eisverticker <eisverticker@gmail.com>
+ * @todo consider magic terms: "Appendix:", "Category:"
+ */
 // npm module export (namespace style)
 module.exports = {
   'CategoryItem': CategoryItem,
-  'Category': Category
+  'buildSourceUrl': buildSourceUrl,
+  'CategoryLoader': CategoryLoader,
+  'MwSources': MwSources
 };
