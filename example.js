@@ -1,15 +1,4 @@
-# mw-category
-This library enables users to access members of a category
-from a mediawiki-compatible source.
-
-## Installation
-```
-npm install mw-category
-```
-
-## Usage
-```javascript
-const MwCategory = require('mw-category');
+const MwCategory = require('./index.js');
 const CategoryLoader = MwCategory.CategoryLoader;
 const buildSourceUrl = MwCategory.buildSourceUrl;
 const MwSources = MwCategory.MwSources;
@@ -28,5 +17,3 @@ wiktionaryCategoryLoader.loadMembers('Category:Spanish basic words')
       );
     }
   );
-
-```
