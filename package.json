@@ -1,10 +1,11 @@
 {
-  "name": "mwcategory",
+  "name": "mw-category",
   "version": "1.0.0",
   "description": "Retrieve category items of a mediawiki-compatible source",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "jsdoc": "jsdoc index.js -d docs"
   },
   "keywords": [
     "mediawiki",
@@ -12,7 +13,7 @@
     "wikipedia",
     "categories"
   ],
-  "author": "eisverticker <eisverticker@gmail.com>",
+  "author": "Alexander Noack <eisverticker@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -25,6 +26,6 @@
   },
   "devDependencies": {
     "eslint": "^4.2.0",
-    "eslint-config-google": "^0.9.1"
+    "jsdoc": "^3.5.3"
   }
 }
