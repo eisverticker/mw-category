@@ -2,11 +2,11 @@
  * # Dependencies
  */
 // ## simple http get requests
-const got = require('got');
+const got = require('got')
 // ## build urls for the requests
-const urlAssembler = require('url-assembler');
+const urlAssembler = require('url-assembler')
 // template engine for small templates (insert language e.g.)
-const mustache = require('mustache');
+const mustache = require('mustache')
 
 /**
  * Represents a mediawiki category entry
@@ -17,9 +17,9 @@ class CategoryItem {
    * @param {number} id
    * @param {string} title
    */
-  constructor(id, title){
-    this.id = id;
-    this.title = title;
+  constructor (id, title) {
+    this.id = id
+    this.title = title
   }
 }
 
@@ -34,7 +34,7 @@ class CategoryItem {
  * @param {string} continueTerm
  * @return {Promise<CategoryItem[]>}
  */
-function getCategoryItems(source, categoryTitle, previousItems, continueTerm){
+function getCategoryItems (source, categoryTitle, previousItems, continueTerm) {
   // # parameters which will be present in the url (query)
   let urlParams = {
     action: 'query',
@@ -42,56 +42,53 @@ function getCategoryItems(source, categoryTitle, previousItems, continueTerm){
     list: 'categorymembers',
     cmtitle: categoryTitle,
     cmlimit: 500 // maximum (2017)
-  };
+  }
   // ## continue term is being used by mediawiki to identify
   //     the current page of the category we want to retrieve
-  if(continueTerm && continueTerm != '') {
-    urlParams.cmcontinue = continueTerm;
+  if (continueTerm && continueTerm !== '') {
+    urlParams.cmcontinue = continueTerm
   }
 
   let url = urlAssembler(source)
     .param(urlParams)
-    .toString();
+    .toString()
 
   return got(url)
     .then(
       (response) => {
         // traverse wikitionary data down to the content
-        let bodyJson = JSON.parse(response.body);
+        let bodyJson = JSON.parse(response.body)
         let categories = bodyJson.query.categorymembers.map(
           (item) => new CategoryItem(item.pageid, item.title)
-        );
+        )
 
         // Do we have reached the last category page?
         //  if so then return all items
         //  else fetch more (recursive call)
-        if(bodyJson.continue === undefined){
-          return Promise.resolve(previousItems.concat(categories));
-        }else{
+        if (bodyJson.continue === undefined) {
+          return Promise.resolve(previousItems.concat(categories))
+        } else {
           return getCategoryItems(
             source,
             categoryTitle,
             previousItems.concat(categories),
             bodyJson.continue.cmcontinue
-          );
+          )
         }
-
       }
-    );
-
+    )
 }
 
 /**
  * Encapsulates utility methods for a given mediawiki-compatible source
  */
 class CategoryLoader {
-
   /**
    * Initalizes Category-Object by (saving source url)
    * @param {string} source
    */
-  constructor(source){
-    this.source = source;
+  constructor (source) {
+    this.source = source
   }
 
   /**
@@ -99,8 +96,8 @@ class CategoryLoader {
    * @param {string} categoryTitle
    * @return {Promise<CategoryItem[]>}
    */
-  loadMembers(categoryTitle){
-    return getCategoryItems(this.source, categoryTitle, [], '');
+  loadMembers (categoryTitle) {
+    return getCategoryItems(this.source, categoryTitle, [], '')
   }
 }
 
@@ -110,7 +107,7 @@ class CategoryLoader {
 const MwSources = {
   Wikipedia: 'https://{{language}}.wikipedia.org/w/api.php',
   Wiktionary: 'https://{{language}}.wiktionary.org/w/api.php'
-};
+}
 
 /**
  * Builds source urls for common mediawiki projects
@@ -119,10 +116,10 @@ const MwSources = {
  * @param {string} mwLanguageCode
  * @return {string}
  */
-function buildSourceUrl(urlMustacheTemplate, mwLanguageCode) {
+function buildSourceUrl (urlMustacheTemplate, mwLanguageCode) {
   return mustache.render(urlMustacheTemplate, {
     language: mwLanguageCode
-  });
+  })
 }
 
 /**
@@ -139,4 +136,4 @@ module.exports = {
   'buildSourceUrl': buildSourceUrl,
   'CategoryLoader': CategoryLoader,
   'MwSources': MwSources
-};
+}

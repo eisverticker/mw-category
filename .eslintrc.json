@@ -17,10 +17,6 @@
             "error",
             "single"
         ],
-        "semi": [
-            "error",
-            "always"
-        ],
         "valid-jsdoc": [2, {
           "requireParamDescription": false,
           "requireReturnDescription": false,

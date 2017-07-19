@@ -1,11 +1,12 @@
 {
   "name": "mw-category",
   "version": "1.0.0",
-  "description": "Retrieve category items of a mediawiki-compatible source",
+  "description": "Retrieve category items from a mediawiki-compatible source",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "jsdoc": "jsdoc index.js -d docs"
+    "test": "eslint index.js",
+    "jsdoc": "jsdoc index.js -d docs",
+    "update-docs":"npm run jsdoc && git add docs* && git commit \"docs: updated jsdoc\""
   },
   "keywords": [
     "mediawiki",
