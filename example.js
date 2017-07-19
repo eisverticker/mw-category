@@ -1,12 +1,12 @@
 const MwCategory = require('./index.js')
+
 const CategoryLoader = MwCategory.CategoryLoader
-const buildSourceUrl = MwCategory.buildSourceUrl
 const MwSources = MwCategory.MwSources
 
-let sourceUrl = buildSourceUrl(MwSources.Wiktionary, 'en')
-let wiktionaryCategoryLoader = new CategoryLoader(sourceUrl)
+let loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en')
+//let loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
 
-wiktionaryCategoryLoader.loadMembers('Category:Spanish basic words')
+loader.loadMembers('Category:Spanish basic words')
   .then(
     (members) => {
       members.forEach(
@@ -16,4 +16,7 @@ wiktionaryCategoryLoader.loadMembers('Category:Spanish basic words')
         }
       )
     }
+  )
+  .catch(
+    (error) => console.log("error: could not load members", error)
   )

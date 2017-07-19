@@ -9,6 +9,27 @@ const urlAssembler = require('url-assembler')
 const mustache = require('mustache')
 
 /**
+ * Define common remote sources with MediaWiki-API
+ */
+const MwSources = {
+  Wikipedia: 'https://{{language}}.wikipedia.org/w/api.php',
+  Wiktionary: 'https://{{language}}.wiktionary.org/w/api.php'
+}
+
+/**
+ * Builds source urls for common mediawiki projects
+ * NOTE: the urls may change and thus they might be outdated
+ * @param {string} urlMustacheTemplate
+ * @param {string} mwLanguageCode
+ * @return {string}
+ */
+function buildSourceUrl (urlMustacheTemplate, mwLanguageCode) {
+  return mustache.render(urlMustacheTemplate, {
+    language: mwLanguageCode
+  })
+}
+
+/**
  * Represents a mediawiki category entry
  */
 class CategoryItem {
@@ -84,42 +105,51 @@ function getCategoryItems (source, categoryTitle, previousItems, continueTerm) {
  */
 class CategoryLoader {
   /**
-   * Initalizes Category-Object by (saving source url)
-   * @param {string} source
+   * Initalizes CategoryLoader class
+   * @deprecated [please use static create methods to create an object]
+   * @param {string} sourceUrl
    */
-  constructor (source) {
-    this.source = source
+  constructor (sourceUrl) {
+    this.sourceUrl = sourceUrl
+  }
+
+  /**
+   * Creates a CategoryLoader object from an complete url to the api
+   * @deprecated
+   * @param {string} sourceUrl
+   * @example
+   * CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
+   * @return {CategoryLoader}
+   */
+  static createFromUrl(sourceUrl) {
+    return new CategoryLoader(sourceUrl);
+  }
+
+  /**
+   * Creates a CategoryLoader object from an language-independent
+   * url-template (mustache style).
+   * Common templates are available in exported member MwSources
+   * @deprecated
+   * @param {string} sourceUrl
+   * @example
+   * CategoryLoader.createFromTemplate(
+   *   'https://{{language}}.wikipedia.org/w/api.php',
+   *   'en'
+   * )
+   * @return {CategoryLoader}
+   */
+  static createFromTemplate(sourceUrl) {
+    return new CategoryLoader(sourceUrl);
   }
 
   /**
    * Retrieves all category members (but not from their subcategories)
    * @param {string} categoryTitle
-   * @return {Promise<CategoryItem[]>}
+   * @return {Promise} Array of type CategoryItem
    */
   loadMembers (categoryTitle) {
     return getCategoryItems(this.source, categoryTitle, [], '')
   }
-}
-
-/**
- * Define common remote sources with MediaWiki-API
- */
-const MwSources = {
-  Wikipedia: 'https://{{language}}.wikipedia.org/w/api.php',
-  Wiktionary: 'https://{{language}}.wiktionary.org/w/api.php'
-}
-
-/**
- * Builds source urls for common mediawiki projects
- * NOTE: the urls may change and thus they might be outdated
- * @param {string} urlMustacheTemplate
- * @param {string} mwLanguageCode
- * @return {string}
- */
-function buildSourceUrl (urlMustacheTemplate, mwLanguageCode) {
-  return mustache.render(urlMustacheTemplate, {
-    language: mwLanguageCode
-  })
 }
 
 /**
