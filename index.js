@@ -121,8 +121,8 @@ class CategoryLoader {
    * CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
    * @return {CategoryLoader}
    */
-  static createFromUrl(sourceUrl) {
-    return new CategoryLoader(sourceUrl);
+  static createFromUrl (sourceUrl) {
+    return new CategoryLoader(sourceUrl)
   }
 
   /**
@@ -130,7 +130,8 @@ class CategoryLoader {
    * url-template (mustache style).
    * Common templates are available in exported member MwSources
    * @deprecated
-   * @param {string} sourceUrl
+   * @param {string} urlTemplate mustache syntax
+   * @param {string} languageCode mediawiki compatible language code
    * @example
    * CategoryLoader.createFromTemplate(
    *   'https://{{language}}.wikipedia.org/w/api.php',
@@ -138,8 +139,10 @@ class CategoryLoader {
    * )
    * @return {CategoryLoader}
    */
-  static createFromTemplate(sourceUrl) {
-    return new CategoryLoader(sourceUrl);
+  static createFromTemplate (urlTemplate, languageCode) {
+    return CategoryLoader.createFromUrl(
+      buildSourceUrl(urlTemplate, languageCode)
+    )
   }
 
   /**
@@ -148,7 +151,7 @@ class CategoryLoader {
    * @return {Promise} Array of type CategoryItem
    */
   loadMembers (categoryTitle) {
-    return getCategoryItems(this.source, categoryTitle, [], '')
+    return getCategoryItems(this.sourceUrl, categoryTitle, [], '')
   }
 }
 
