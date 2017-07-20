@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Source: lib/build-source-url.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Source: lib/build-source-url.js</h1>
 
     
 
@@ -26,25 +26,23 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const CategoryItem = require('./lib/category-item.js')
-const MwSources = require('./lib/mw-sources.js')
-const CategoryLoader = require('./lib/category-loader.js')
-const buildSourceUrl = require('./lib/build-source-url.js')
+            <pre class="prettyprint source linenums"><code>// template engine for small templates (insert language e.g.)
+const mustache = require('mustache')
 
 /**
- * Retrieve category content from mediawiki source.
- * This library is promise based.
- * @module mw-category
- * @license MIT
- * @author eisverticker &lt;eisverticker@gmail.com>
+ * Builds source urls for common mediawiki projects
+ * NOTE: the urls may change and thus they might be outdated
+ * @param {string} urlMustacheTemplate
+ * @param {string} mwLanguageCode
+ * @return {string}
  */
-// npm module export (namespace style)
-module.exports = {
-  'CategoryItem': CategoryItem,
-  'buildSourceUrl': buildSourceUrl,
-  'CategoryLoader': CategoryLoader,
-  'MwSources': MwSources
+function buildSourceUrl (urlMustacheTemplate, mwLanguageCode) {
+  return mustache.render(urlMustacheTemplate, {
+    language: mwLanguageCode
+  })
 }
+
+module.exports = buildSourceUrl;
 </code></pre>
         </article>
     </section>

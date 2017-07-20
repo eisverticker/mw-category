@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Source: lib/mw-sources.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Source: lib/mw-sources.js</h1>
 
     
 
@@ -26,25 +26,15 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const CategoryItem = require('./lib/category-item.js')
-const MwSources = require('./lib/mw-sources.js')
-const CategoryLoader = require('./lib/category-loader.js')
-const buildSourceUrl = require('./lib/build-source-url.js')
-
-/**
- * Retrieve category content from mediawiki source.
- * This library is promise based.
- * @module mw-category
- * @license MIT
- * @author eisverticker &lt;eisverticker@gmail.com>
+            <pre class="prettyprint source linenums"><code>/**
+ * Define common remote sources which provide the MediaWiki-API
  */
-// npm module export (namespace style)
-module.exports = {
-  'CategoryItem': CategoryItem,
-  'buildSourceUrl': buildSourceUrl,
-  'CategoryLoader': CategoryLoader,
-  'MwSources': MwSources
+const MwSources = {
+  Wikipedia: 'https://{{language}}.wikipedia.org/w/api.php',
+  Wiktionary: 'https://{{language}}.wiktionary.org/w/api.php'
 }
+
+module.exports = MwSources;
 </code></pre>
         </article>
     </section>
