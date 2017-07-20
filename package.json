@@ -4,9 +4,9 @@
   "description": "Retrieve category items from a mediawiki-compatible source",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js",
+    "test": "eslint index.js && mocha",
     "jsdoc": "jsdoc index.js -d docs",
-    "update-docs":"npm run jsdoc && git add docs* && git commit \"docs: updated jsdoc\""
+    "update-docs": "npm run jsdoc && git add docs* && git commit -m \"docs: updated jsdoc\""
   },
   "keywords": [
     "mediawiki",
@@ -26,7 +26,10 @@
     "url-assembler": "^1.2.8"
   },
   "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^4.2.0",
-    "jsdoc": "^3.5.3"
+    "jsdoc": "^3.5.3",
+    "mocha": "^3.4.2"
   }
 }
