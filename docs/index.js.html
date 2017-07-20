@@ -26,170 +26,17 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/*
- * # Dependencies
- */
-// ## simple http get requests
-const got = require('got')
-// ## build urls for the requests
-const urlAssembler = require('url-assembler')
-// template engine for small templates (insert language e.g.)
-const mustache = require('mustache')
+            <pre class="prettyprint source linenums"><code>const CategoryItem = require('./lib/category-item.js')
+const MwSources = require('./lib/mw-sources.js')
+const CategoryLoader = require('./lib/category-loader.js')
+const buildSourceUrl = require('./lib/build-source-url.js')
 
 /**
- * Define common remote sources with MediaWiki-API
- */
-const MwSources = {
-  Wikipedia: 'https://{{language}}.wikipedia.org/w/api.php',
-  Wiktionary: 'https://{{language}}.wiktionary.org/w/api.php'
-}
-
-/**
- * Builds source urls for common mediawiki projects
- * NOTE: the urls may change and thus they might be outdated
- * @param {string} urlMustacheTemplate
- * @param {string} mwLanguageCode
- * @return {string}
- */
-function buildSourceUrl (urlMustacheTemplate, mwLanguageCode) {
-  return mustache.render(urlMustacheTemplate, {
-    language: mwLanguageCode
-  })
-}
-
-/**
- * Represents a mediawiki category entry
- */
-class CategoryItem {
-  /**
-   * Initializes class members
-   * @param {number} id
-   * @param {string} title
-   */
-  constructor (id, title) {
-    this.id = id
-    this.title = title
-  }
-}
-
-/**
- * Loads category members from the given MediaWiki-Source
- *  Category items cannot always be retrieved all at once (500 at most)
- *  so we have to make multiple requests to the server
- * @private
- * @param {string} source
- * @param {string} categoryTitle
- * @param {CategoryItem[]} previousItems
- * @param {string} continueTerm
- * @return {Promise&lt;CategoryItem[]>}
- */
-function getCategoryItems (source, categoryTitle, previousItems, continueTerm) {
-  // # parameters which will be present in the url (query)
-  let urlParams = {
-    action: 'query',
-    format: 'json',
-    list: 'categorymembers',
-    cmtitle: categoryTitle,
-    cmlimit: 500 // maximum (2017)
-  }
-  // ## continue term is being used by mediawiki to identify
-  //     the current page of the category we want to retrieve
-  if (continueTerm &amp;&amp; continueTerm !== '') {
-    urlParams.cmcontinue = continueTerm
-  }
-
-  let url = urlAssembler(source)
-    .param(urlParams)
-    .toString()
-
-  return got(url)
-    .then(
-      (response) => {
-        // traverse wikitionary data down to the content
-        let bodyJson = JSON.parse(response.body)
-        let categories = bodyJson.query.categorymembers.map(
-          (item) => new CategoryItem(item.pageid, item.title)
-        )
-
-        // Do we have reached the last category page?
-        //  if so then return all items
-        //  else fetch more (recursive call)
-        if (bodyJson.continue === undefined) {
-          return Promise.resolve(previousItems.concat(categories))
-        } else {
-          return getCategoryItems(
-            source,
-            categoryTitle,
-            previousItems.concat(categories),
-            bodyJson.continue.cmcontinue
-          )
-        }
-      }
-    )
-}
-
-/**
- * Encapsulates utility methods for a given mediawiki-compatible source
- */
-class CategoryLoader {
-  /**
-   * Initalizes CategoryLoader class
-   * @deprecated [please use static create methods to create an object]
-   * @param {string} sourceUrl
-   */
-  constructor (sourceUrl) {
-    this.sourceUrl = sourceUrl
-  }
-
-  /**
-   * Creates a CategoryLoader object from an complete url to the api
-   * @deprecated
-   * @param {string} sourceUrl
-   * @example
-   * CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
-   * @return {CategoryLoader}
-   */
-  static createFromUrl (sourceUrl) {
-    return new CategoryLoader(sourceUrl)
-  }
-
-  /**
-   * Creates a CategoryLoader object from an language-independent
-   * url-template (mustache style).
-   * Common templates are available in exported member MwSources
-   * @deprecated
-   * @param {string} urlTemplate mustache syntax
-   * @param {string} languageCode mediawiki compatible language code
-   * @example
-   * CategoryLoader.createFromTemplate(
-   *   'https://{{language}}.wikipedia.org/w/api.php',
-   *   'en'
-   * )
-   * @return {CategoryLoader}
-   */
-  static createFromTemplate (urlTemplate, languageCode) {
-    return CategoryLoader.createFromUrl(
-      buildSourceUrl(urlTemplate, languageCode)
-    )
-  }
-
-  /**
-   * Retrieves all category members (but not from their subcategories)
-   * @param {string} categoryTitle
-   * @return {Promise} Array of type CategoryItem
-   */
-  loadMembers (categoryTitle) {
-    return getCategoryItems(this.sourceUrl, categoryTitle, [], '')
-  }
-}
-
-/**
- * Get Category content from mediawiki source.
+ * Retrieve category content from mediawiki source.
  * This library is promise based.
  * @module mw-category
  * @license MIT
  * @author eisverticker &lt;eisverticker@gmail.com>
- * @todo consider magic terms: "Appendix:", "Category:"
  */
 // npm module export (namespace style)
 module.exports = {
@@ -208,13 +55,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-mw-category.html">mw-category</a></li></ul><h3>Classes</h3><ul><li><a href="CategoryItem.html">CategoryItem</a></li><li><a href="CategoryLoader.html">CategoryLoader</a></li></ul><h3>Global</h3><ul><li><a href="global.html#buildSourceUrl">buildSourceUrl</a></li><li><a href="global.html#MwSources">MwSources</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-mw-category.html">mw-category</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Wed Jul 19 2017 15:56:08 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Thu Jul 20 2017 13:17:23 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
