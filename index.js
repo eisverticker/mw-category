@@ -77,25 +77,43 @@ function getCategoryItems (source, categoryTitle, previousItems, continueTerm) {
   return got(url)
     .then(
       (response) => {
-        // traverse wikitionary data down to the content
-        let bodyJson = JSON.parse(response.body)
-        let categories = bodyJson.query.categorymembers.map(
-          (item) => new CategoryItem(item.pageid, item.title)
-        )
+        // # traverse wikitionary data down to the content
+        // the following might throw a syntax error if response.body
+        // is no valid json
+        try {
+          let body = JSON.parse(response.body)
 
-        // Do we have reached the last category page?
-        //  if so then return all items
-        //  else fetch more (recursive call)
-        if (bodyJson.continue === undefined) {
-          return Promise.resolve(previousItems.concat(categories))
-        } else {
-          return getCategoryItems(
-            source,
-            categoryTitle,
-            previousItems.concat(categories),
-            bodyJson.continue.cmcontinue
+          // check if json format is ok
+          if(
+            body.query === undefined ||
+            body.query.categorymembers === undefined
+          ){
+            throw 'error'
+          }
+
+          // map to CategoryItem
+          let categories = body.query.categorymembers.map(
+            (item) => new CategoryItem(item.pageid, item.title)
           )
+
+          // Do we have reached the last category page?
+          //  if so then return all items
+          //  else fetch more (recursive call)
+          if (body.continue === undefined) {
+            return Promise.resolve(previousItems.concat(categories))
+          } else {
+            return getCategoryItems(
+              source,
+              categoryTitle,
+              previousItems.concat(categories),
+              body.continue.cmcontinue
+            )
+          }
+
+        }catch(e) {
+          return Promise.reject('response-body-invalid')
         }
+
       }
     )
 }
@@ -115,7 +133,6 @@ class CategoryLoader {
 
   /**
    * Creates a CategoryLoader object from an complete url to the api
-   * @deprecated
    * @param {string} sourceUrl
    * @example
    * CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
@@ -129,7 +146,6 @@ class CategoryLoader {
    * Creates a CategoryLoader object from an language-independent
    * url-template (mustache style).
    * Common templates are available in exported member MwSources
-   * @deprecated
    * @param {string} urlTemplate mustache syntax
    * @param {string} languageCode mediawiki compatible language code
    * @example
