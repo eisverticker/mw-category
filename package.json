@@ -8,6 +8,9 @@
     "jsdoc": "jsdoc index.js lib/* -d docs",
     "update-docs": "npm run jsdoc && git add docs* && git commit -m \"docs: updated jsdoc\""
   },
+  "bin": {
+    "mw-category": "cli.js"
+  },
   "keywords": [
     "mediawiki",
     "wiktionary",
@@ -21,6 +24,7 @@
     "url": "https://github.com/eisverticker/mw-category.git"
   },
   "dependencies": {
+    "commander": "^2.11.0",
     "got": "^7.1.0",
     "mustache": "^2.3.0",
     "url-assembler": "^1.2.8"
