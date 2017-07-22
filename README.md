@@ -6,12 +6,24 @@ from a mediawiki-compatible source.
 * [API Reference](https://eisverticker.github.io/mw-category/)
 
 ## Installation
+### Default
 ```
 npm install mw-category
 ```
+### Global (CLI)
+```
+npm install -g mw-category
+```
 
 ## Usage
-### Example
+### CLI example
+```
+mw-category https://en.wikipedia.org/w/api.php Category:Punctuation
+```
+
+If the --csv option is given then the resulting member strings will be quoted.
+
+### Javascript example
 ```javascript
 const MwCategory = require('mw-category')
 

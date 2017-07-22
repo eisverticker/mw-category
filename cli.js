@@ -8,6 +8,7 @@ const CategoryLoader = mwc.CategoryLoader;
 program
   .version('1.2.0')
   .arguments('<url> <title>')
+  .option('-c, --csv', 'Make output csv compatible')
   .action( function(url, title, env) {
     // process category
     let loader = CategoryLoader.createFromUrl(url)
@@ -18,7 +19,13 @@ program
       .then(
         (members) => {
           members.forEach(
-            (item) => console.log(item.title)
+            (item) => {
+              // csv mode --> add quotation marks
+              if(env.csv) {
+                item.title = '"' + item.title + '"';
+              }
+              console.log(item.title)
+            }
           )
         }
       )
