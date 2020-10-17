@@ -1,22 +1,29 @@
 # mw-category
-This library enables users to access members of a category
-from a mediawiki-compatible source.
+
+This library enables users to access members of a category from a mediawiki-compatible source.
 
 ## Resources
-* [API Reference](https://eisverticker.github.io/mw-category/)
+
+[API Reference](https://eisverticker.github.io/mw-category/)
 
 ## Installation
+
 ### Default
+
 ```
 npm install mw-category
 ```
+
 ### Global (CLI)
+
 ```
 npm install -g mw-category
 ```
 
 ## Usage
+
 ### CLI example
+
 ```
 mw-category https://en.wikipedia.org/w/api.php Category:Punctuation
 ```
@@ -24,6 +31,7 @@ mw-category https://en.wikipedia.org/w/api.php Category:Punctuation
 If the --csv option is given then the resulting member strings will be quoted.
 
 ### Javascript example
+
 ```javascript
 const MwCategory = require('mw-category')
 
@@ -50,7 +58,9 @@ loader.loadMembers('Category:Spanish basic words')
 ```
 
 ### loadMembers-Method
+
 Returns an Array of _CategoryItem_ as a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises):
+
 ```json
 [
   {
