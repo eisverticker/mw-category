@@ -4,7 +4,8 @@
   "description": "Retrieve category items from a mediawiki-compatible source",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js && mocha",
+    "test": "mocha",
+    "lint": "eslint index.js",
     "jsdoc": "jsdoc index.js lib/* -d docs",
     "update-docs": "npm run jsdoc && git add docs* && git commit -m \"docs: updated jsdoc\""
   },
