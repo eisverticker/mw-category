@@ -8,7 +8,7 @@ const CategoryLoader = mwc.CategoryLoader;
 program
   .version('1.2.0')
   .arguments('<url> <title>')
-  .option('-c, --csv', 'Make output csv compatible')
+  .option( '-c, --csv', 'Make output csv compatible')
   .action( function(url, title, env) {
     // process category
     let loader = CategoryLoader.createFromUrl(url)
@@ -30,7 +30,7 @@ program
         }
       )
       .catch(
-        () => console.log("error", "program was unable to load category members")
+        () => console.log('error', 'program was unable to load category members')
       );
   })
   .parse(process.argv);
