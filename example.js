@@ -18,5 +18,5 @@ loader.loadMembers('Category:Spanish basic words')
     }
   )
   .catch(
-    (error) => console.log("error: could not load members", error)
+    (error) => console.log('error: could not load members', error)
   )
