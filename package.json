@@ -20,8 +20,13 @@
   ],
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "npm test",
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": "eslint --max-warnings 0"
   },
   "author": "Alexander Noack <eisverticker@gmail.com>",
   "license": "MIT",
@@ -43,6 +48,7 @@
     "eslint": "^7.11.0",
     "husky": "^4.3.0",
     "jsdoc": "^3.5.3",
+    "lint-staged": "^10.4.2",
     "mocha": "^8.2.0"
   }
 }
