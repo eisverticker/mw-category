@@ -25,7 +25,7 @@
     "url": "https://github.com/eisverticker/mw-category.git"
   },
   "dependencies": {
-    "commander": "^2.11.0",
+    "commander": "^6.1.0",
     "got": "^11.7.0",
     "mustache": "^4.0.1",
     "url-assembler": "^2.1.1"
