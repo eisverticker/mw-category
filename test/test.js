@@ -10,7 +10,7 @@ const CategoryLoader = MwCategory.CategoryLoader
 const MwSources = MwCategory.MwSources
 
 describe('#loadMembers()', function() {
-  it('should load the category members from wikipedia without an error', function() {
+  it('should load category members from wikipedia without an error', function() {
     let loader = CategoryLoader.createFromTemplate(MwSources.Wikipedia, 'en');
     return expect(
       loader.loadMembers('Category:Cities_in_Luxembourg')
