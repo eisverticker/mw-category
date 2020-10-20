@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint index.js cli.js example.js lib/*.js",
+    "lint": "eslint index.js cli.js example.js lib/*.js test/*.js",
     "jsdoc": "jsdoc index.js lib/* -d docs",
     "update-docs": "npm run jsdoc && git add docs* && git commit -m \"docs: updated jsdoc\""
   },
