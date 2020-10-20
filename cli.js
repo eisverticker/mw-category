@@ -6,7 +6,7 @@ const CategoryLoader = mwc.CategoryLoader;
 
 // use commander to describe and parse the command (arguments and options)
 program
-  .version('1.2.0')
+  .version('1.2.2')
   .arguments('<url> <title>')
   .option( '-c, --csv', 'Make output csv compatible')
   .action( function(url, title, env) {
@@ -30,7 +30,7 @@ program
         }
       )
       .catch(
-        () => console.log('error', 'program was unable to load category members')
+        () => console.error('error', 'program was unable to load category members')
       );
   })
   .parse(process.argv);
