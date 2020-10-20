@@ -7,7 +7,11 @@
     "test": "mocha",
     "lint": "eslint index.js cli.js example.js lib/*.js test/*.js",
     "jsdoc": "jsdoc index.js lib/* -d docs",
-    "update-docs": "npm run jsdoc && git add docs* && git commit -m \"docs: updated jsdoc\""
+    "update-docs": "npm run jsdoc && git add docs* && git commit -m \"docs: updated jsdoc\"",
+    "release": "standard-version",
+    "release:patch": "standard-version --release-as patch",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major"
   },
   "bin": {
     "mw-category": "cli.js"
@@ -27,6 +31,18 @@
   },
   "lint-staged": {
     "*.js": "eslint --max-warnings 0"
+  },
+  "standard-version": {
+    "types": [
+      {"type": "feat", "section": "Features"},
+      {"type": "fix", "section": "Bug Fixes"},
+      {"type": "chore", "hidden": true},
+      {"type": "docs", "hidden": true},
+      {"type": "style", "hidden": true},
+      {"type": "refactor", "hidden": true},
+      {"type": "perf", "hidden": true},
+      {"type": "test", "hidden": true}
+    ]
   },
   "author": "Alexander Noack <eisverticker@gmail.com>",
   "license": "MIT",
@@ -49,6 +65,7 @@
     "husky": "^4.3.0",
     "jsdoc": "^3.5.3",
     "lint-staged": "^10.4.2",
-    "mocha": "^8.2.0"
+    "mocha": "^8.2.0",
+    "standard-version": "^9.0.0"
   }
 }
