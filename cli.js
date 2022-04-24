@@ -2,10 +2,8 @@
 
 /* eslint-disable no-console */
 
-const program = require('commander')
-const mwc = require('./index.js')
-
-const CategoryLoader = mwc.CategoryLoader
+import { program } from 'commander'
+import { CategoryLoader } from './index.js'
 
 program
   .version('2.0.0')

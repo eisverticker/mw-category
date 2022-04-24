@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-const {CategoryLoader, MwSources} = require('./index.js')
+import { CategoryLoader, MwSources } from './index.js'
 
 const loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en')
 // const loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')

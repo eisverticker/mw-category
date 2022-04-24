@@ -32,6 +32,7 @@
   "bugs": {
     "url": "https://github.com/eisverticker/mw-category/issues"
   },
+  "type": "module",
   "dependencies": {
     "commander": "^9.2.0",
     "got": "^11.7.0",

@@ -5,10 +5,12 @@
         "es6": true
     },
     "parserOptions": {
-      "ecmaVersion": 2020
+      "ecmaVersion": 2020,
+      "sourceType": "module"
     },
     "extends": ["eslint:recommended", "google"],
     "rules": {
+        "object-curly-spacing": ["error", "always"],
         "require-await": "error",
         "no-console": "warn",
         "indent": [

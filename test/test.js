@@ -1,13 +1,13 @@
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised')
-const citiesInLuxembourg = require('./resources/en-wikipedia-citites-in-luxembourg.json')
-chai.use(chaiAsPromised)
-const expect = chai.expect
+import { use, expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+use(chaiAsPromised)
 
-const MwCategory = require('../index.js')
+import { loadJsonTestResource } from './test-utils.js'
+import { CategoryLoader as _CategoryLoader, MwSources as _MwSources } from '../index.js'
 
-const CategoryLoader = MwCategory.CategoryLoader
-const MwSources = MwCategory.MwSources
+const citiesInLuxembourg = loadJsonTestResource('en-wikipedia-citites-in-luxembourg.json')
+const CategoryLoader = _CategoryLoader
+const MwSources = _MwSources
 
 describe('#loadMembers()', () => {
   it('should load category members from wikipedia without an error', async () => {
@@ -46,3 +46,4 @@ describe('#loadMembers()', () => {
     ).to.be.rejected
   })
 })
+
