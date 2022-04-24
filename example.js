@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const {CategoryLoader, MwSources} = require('./index.js')
 
 const loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en')

@@ -9,6 +9,7 @@
     },
     "extends": ["eslint:recommended", "google"],
     "rules": {
+        "no-console": "warn",
         "indent": [
             "error",
             2
