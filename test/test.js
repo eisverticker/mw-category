@@ -9,26 +9,27 @@ const MwCategory = require('../index.js')
 const CategoryLoader = MwCategory.CategoryLoader
 const MwSources = MwCategory.MwSources
 
-describe('#loadMembers()', function() {
-  it('should load category members from wikipedia without an error', () => {
+describe('#loadMembers()', () => {
+  it('should load category members from wikipedia without an error', async () => {
     let loader = CategoryLoader.createFromTemplate(MwSources.Wikipedia, 'en');
-    return expect(
-      loader.loadMembers('Category:Cities_in_Luxembourg')
-    ).to.eventually.deep.equal(citiesInLuxembourg);
+    const actualMembers = await loader.loadMembers('Category:Cities_in_Luxembourg')
+    expect(actualMembers).to.deep.equal(citiesInLuxembourg);
   });
 
-  it('should do the same for createFromUrl', () => {
+  it('should load cities of luxembourg by using createFromUrl', async () => {
     let loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php');
-    return expect(
-      loader.loadMembers('Category:Cities_in_Luxembourg')
-    ).to.be.fulfilled;
+    const actualMembers = await loader.loadMembers('Category:Cities_in_Luxembourg')
+    expect(actualMembers).to.be.an('array')
+    expect(actualMembers).to.have.length(16)
+    expect(actualMembers.some((item) => item.title === 'Differdange')).to.be.true
   });
 
-  it('should load the category members from wiktionary without an error', () => {
+  it('should load category members from wiktionary without an error', async () => {
     let loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en');
-    return expect(
-      loader.loadMembers('Category:Spanish basic words')
-    ).to.be.fulfilled;
+    const actualMembers = await loader.loadMembers('Category:Spanish_given_names')
+    expect(actualMembers).to.be.an('array')
+    expect(actualMembers).to.have.length.greaterThan(0)
+    expect(actualMembers.some((item) => item.title === 'Fernando')).to.be.true
   });
 
   it('should throw an error because it is no category', function() {
