@@ -9,6 +9,7 @@
     },
     "extends": ["eslint:recommended", "google"],
     "rules": {
+        "require-await": "error",
         "no-console": "warn",
         "indent": [
             "error",
