@@ -45,7 +45,7 @@
     "chai-as-promised": "^7.1.1",
     "eslint": "^8.14.0",
     "eslint-config-google": "^0.14.0",
-    "husky": "^4.3.0",
+    "husky": "^7.0.4",
     "jsdoc": "^3.5.3",
     "lint-staged": "^10.4.2",
     "mocha": "^8.2.0",
@@ -54,15 +54,8 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "npm test",
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.js": "eslint --max-warnings 0"
+    "*.js": "eslint --quiet --fix --max-warnings 0"
   },
   "standard-version": {
     "types": [
