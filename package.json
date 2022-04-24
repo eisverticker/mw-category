@@ -23,6 +23,37 @@
     "wikipedia",
     "categories"
   ],
+  "author": "Alexander Noack <eisverticker@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eisverticker/mw-category.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eisverticker/mw-category/issues"
+  },
+  "dependencies": {
+    "commander": "^9.2.0",
+    "got": "^11.7.0",
+    "mustache": "^4.0.1",
+    "url-assembler": "^2.1.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^8.14.0",
+    "eslint-config-google": "^0.14.0",
+    "husky": "^4.3.0",
+    "jsdoc": "^3.5.3",
+    "lint-staged": "^10.4.2",
+    "mocha": "^8.2.0",
+    "standard-version": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
@@ -68,33 +99,5 @@
         "hidden": true
       }
     ]
-  },
-  "author": "Alexander Noack <eisverticker@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/eisverticker/mw-category.git"
-  },
-  "dependencies": {
-    "commander": "^6.1.0",
-    "got": "^11.7.0",
-    "mustache": "^4.0.1",
-    "url-assembler": "^2.1.1"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "chai": "^4.1.0",
-    "chai-as-promised": "^7.1.1",
-    "eslint": "^8.14.0",
-    "eslint-config-google": "^0.14.0",
-    "husky": "^4.3.0",
-    "jsdoc": "^3.5.3",
-    "lint-staged": "^10.4.2",
-    "mocha": "^8.2.0",
-    "standard-version": "^9.0.0"
-  },
-  "engines": {
-    "node": ">=14.0.0"
   }
 }
