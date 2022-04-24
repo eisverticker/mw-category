@@ -1,0 +1,7 @@
+.husky
+.commitlintrc.json
+.eslintrc.json
+example.js
+test
+docs
+.github/
