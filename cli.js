@@ -2,11 +2,17 @@
 
 /* eslint-disable no-console */
 
+import { readFileSync } from 'fs'
+import { fileURLToPath } from 'url'
+import path from 'path'
 import { program } from 'commander'
 import { CategoryLoader } from './index.js'
 
+const packageJsonPath = path.join(fileURLToPath(import.meta.url), '../package.json')
+const { version } = JSON.parse(readFileSync(packageJsonPath))
+
 program
-  .version('2.0.0')
+  .version(version)
   .arguments('<url> <title>')
   .option( '-c, --csv', 'Make output csv compatible')
   .action( async (url, title, env) => {
