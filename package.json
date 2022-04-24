@@ -91,5 +91,8 @@
     "lint-staged": "^10.4.2",
     "mocha": "^8.2.0",
     "standard-version": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
