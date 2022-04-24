@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint index.js cli.js example.js lib/*.js test/*.js",
+    "lint": "eslint index.js cli.js example.js lib/*.js test/*.js --max-warnings 0",
+    "lint:fix": "eslint index.js cli.js example.js lib/*.js test/*.js --fix --max-warnings 0",
     "jsdoc": "jsdoc index.js lib/* -d docs",
     "update-docs": "npm run jsdoc && git add docs* && git commit -m \"docs: updated jsdoc\"",
     "release": "standard-version",
@@ -86,6 +87,7 @@
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^8.14.0",
+    "eslint-config-google": "^0.14.0",
     "husky": "^4.3.0",
     "jsdoc": "^3.5.3",
     "lint-staged": "^10.4.2",

@@ -7,7 +7,7 @@
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended", "google"],
     "rules": {
         "indent": [
             "error",
@@ -21,6 +21,8 @@
             "error",
             "single"
         ],
+        "semi": ["warn", "never"],
+        "max-len": ["warn", 100],
         "valid-jsdoc": [2, {
           "requireParamDescription": false,
           "requireReturnDescription": false,
@@ -33,6 +35,7 @@
             "MethodDefinition": true,
             "ClassDeclaration": true
           }
-        }]
+        }],
+        "comma-dangle": ["warn", "only-multiline"]
     }
 }
