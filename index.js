@@ -10,8 +10,7 @@ const buildSourceUrl = require('./lib/build-source-url.js')
  * @license MIT
  * @author eisverticker <eisverticker@gmail.com>
  * @example
- * const mwc = require('mw-category')
- * const CategoryLoader = mwc.CategoryLoader
+ * const { CategoryLoader, MwSources } = require('mw-category')
  */
 // npm module export (namespace style)
 module.exports = {
