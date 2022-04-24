@@ -85,7 +85,7 @@
     "@commitlint/config-conventional": "^11.0.0",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^7.11.0",
+    "eslint": "^8.14.0",
     "husky": "^4.3.0",
     "jsdoc": "^3.5.3",
     "lint-staged": "^10.4.2",
