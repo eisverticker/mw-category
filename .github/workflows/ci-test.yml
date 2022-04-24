@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -27,3 +27,4 @@ jobs:
     - run: npm ci
     - run: npm run lint
     - run: npm test
+    - run: node example.js
