@@ -3,10 +3,11 @@ const program = require('commander')
 const mwc = require('./index.js')
 
 const CategoryLoader = mwc.CategoryLoader;
+const version = require('./package.json').version;
 
 // use commander to describe and parse the command (arguments and options)
 program
-  .version('1.2.2')
+  .version(version)
   .arguments('<url> <title>')
   .option( '-c, --csv', 'Make output csv compatible')
   .action( function(url, title, env) {
