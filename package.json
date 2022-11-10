@@ -89,7 +89,7 @@
     "husky": "^4.3.0",
     "jsdoc": "^3.5.3",
     "lint-staged": "^10.4.2",
-    "mocha": "^8.2.0",
+    "mocha": "^10.1.0",
     "standard-version": "^9.0.0"
   }
 }
