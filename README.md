@@ -1,6 +1,6 @@
 # mw-category
 
-This library enables users to access members of a category from a mediawiki-compatible source.
+Tool for displaying members of a category from a mediawiki-compatible source.
 
 ## Resources
 
@@ -10,11 +10,21 @@ This library enables users to access members of a category from a mediawiki-comp
 
 ### CLI
 
+There are several ways to provide the source platform of the category.
+
+By using a [preset](./lib/mw-sources.js):
+
+```shell
+npx mw-category wikipedia:en Category:Punctuation
+```
+
+Or by using a custom url:
+
 ```shell
 npx mw-category https://en.wikipedia.org/w/api.php Category:Punctuation
 ```
 
-If the --csv option is given then the resulting member strings will be wrapped in double quotes.
+If the `--csv` option is given then the resulting member strings will be wrapped in double quotes.
 
 ### Programmatic
 
