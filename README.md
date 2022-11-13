@@ -27,10 +27,7 @@ npm install mw-category
 And use the module like this:
 
 ```javascript
-const MwCategory = require('mw-category')
-
-const CategoryLoader = MwCategory.CategoryLoader
-const MwSources = MwCategory.MwSources
+import { CategoryLoader, MwSources } from 'mw-category'
 
 let loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en')
 //  let loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
