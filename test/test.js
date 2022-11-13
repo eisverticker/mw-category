@@ -3,15 +3,13 @@ import chaiAsPromised from 'chai-as-promised'
 use(chaiAsPromised)
 
 import { loadJsonTestResource } from './test-utils.js'
-import { CategoryLoader as _CategoryLoader, MwSources as _MwSources } from '../index.js'
+import { CategoryLoader, MwSources } from '../index.js'
 
 const citiesInLuxembourg = loadJsonTestResource('en-wikipedia-citites-in-luxembourg.json')
-const CategoryLoader = _CategoryLoader
-const MwSources = _MwSources
 
 describe('#loadMembers()', () => {
   it('should load category members from wikipedia without an error', async () => {
-    const loader = CategoryLoader.createFromTemplate(MwSources.Wikipedia, 'en')
+    const loader = CategoryLoader.createFromTemplate(MwSources.wikipedia, 'en')
     const actualMembers = await loader.loadMembers('Category:Cities_in_Luxembourg')
     expect(actualMembers).to.deep.equal(citiesInLuxembourg)
   })
@@ -25,7 +23,7 @@ describe('#loadMembers()', () => {
   })
 
   it('should load category members from wiktionary without an error', async () => {
-    const loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en')
+    const loader = CategoryLoader.createFromTemplate(MwSources.wiktionary, 'en')
     const actualMembers = await loader.loadMembers('Category:Spanish_given_names')
     expect(actualMembers).to.be.an('array')
     expect(actualMembers).to.have.length.greaterThan(0)
@@ -33,7 +31,7 @@ describe('#loadMembers()', () => {
   })
 
   it('should throw an error because it is no category', function() {
-    const loader = CategoryLoader.createFromTemplate(MwSources.Wikipedia, 'en')
+    const loader = CategoryLoader.createFromTemplate(MwSources.wikipedia, 'en')
     return expect(
       loader.loadMembers('Luxembourg')
     ).to.be.rejectedWith('response-body-invalid')
