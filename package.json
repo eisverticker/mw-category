@@ -1,6 +1,6 @@
 {
   "name": "mw-category",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "Retrieve category items from a mediawiki-compatible source",
   "main": "index.js",
   "scripts": {
