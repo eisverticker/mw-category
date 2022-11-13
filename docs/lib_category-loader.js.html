@@ -26,14 +26,11 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// ## build urls for the requests
-const urlAssembler = require('url-assembler')
-// ## simple http get requests
-const got = require('got')
-// data structure for a single category member
-const CategoryItem = require('./category-item.js')
-// helper function to build urls from template
-const buildSourceUrl = require('./build-source-url.js')
+            <pre class="prettyprint source linenums"><code>import urlAssembler from 'url-assembler'
+import got from 'got'
+import CategoryItem from './category-item.js'
+import buildSourceUrl from './build-source-url.js'
+
 /**
  * Loads category members recursively from the given MediaWiki-Source
  *  Category items cannot always be retrieved all at once (500 at most)
@@ -45,14 +42,14 @@ const buildSourceUrl = require('./build-source-url.js')
  * @param {string} continueTerm
  * @return {Promise&lt;CategoryItem[]>}
  */
-function getCategoryItems (source, categoryTitle, previousItems, continueTerm) {
+async function getCategoryItems(source, categoryTitle, previousItems, continueTerm) {
   // # parameters which will be present in the url (query)
-  let urlParams = {
+  const urlParams = {
     action: 'query',
     format: 'json',
     list: 'categorymembers',
     cmtitle: categoryTitle,
-    cmlimit: 500 // maximum (2017)
+    cmlimit: 500 // maximum as of 2022
   }
   // ## continue term is being used by mediawiki to identify
   //     the current page of the category we want to retrieve
@@ -60,65 +57,59 @@ function getCategoryItems (source, categoryTitle, previousItems, continueTerm) {
     urlParams.cmcontinue = continueTerm
   }
 
-  let url = urlAssembler(source)
+  const url = urlAssembler(source)
     .param(urlParams)
     .toString()
 
-  return got(url, {
+  const response = await got(url, {
     retry: 1
-  }).then(
-    (response) => {
-      // # traverse wikitionary data down to the content
-      // the following might throw a syntax error if response.body
-      // is no valid json
-      try {
-        let body = JSON.parse(response.body)
+  })
 
-        // check if json format is ok
-        if(
-          body.query === undefined ||
-            body.query.categorymembers === undefined
-        ){
-          throw 'error'
-        }
+  // # traverse wikitionary data down to the content
+  // the following might throw a syntax error if response.body
+  // is no valid json
+  let body
+  try {
+    body = JSON.parse(response.body)
+  } catch (e) {
+    return Promise.reject(new Error('response-body-invalid'))
+  }
 
-        // map to CategoryItem
-        let categories = body.query.categorymembers.map(
-          (item) => new CategoryItem(item.pageid, item.title)
-        )
+  // check if json format is ok
+  if (body.query === undefined || body.query.categorymembers === undefined) {
+    throw new Error('response-body-invalid')
+  }
 
-        // Do we have reached the last category page?
-        //  if so then return all items
-        //  else fetch more (recursive call)
-        if (body.continue === undefined) {
-          return Promise.resolve(previousItems.concat(categories))
-        } else {
-          return getCategoryItems(
-            source,
-            categoryTitle,
-            previousItems.concat(categories),
-            body.continue.cmcontinue
-          )
-        }
-
-      }catch(e) {
-        return Promise.reject('response-body-invalid')
-      }
-
-    }
+  // map to CategoryItem
+  const categories = body.query.categorymembers.map(
+    (item) => new CategoryItem(item.pageid, item.title)
   )
+
+  // Do we have reached the last category page?
+  //  if so then return all items
+  //  else fetch more (recursive call)
+  if (body.continue === undefined) {
+    return Promise.resolve(previousItems.concat(categories))
+  } else {
+    return getCategoryItems(
+      source,
+      categoryTitle,
+      previousItems.concat(categories),
+      body.continue.cmcontinue
+    )
+  }
 }
 
 /**
  * Encapsulates utility methods for a given mediawiki-compatible source
  */
-class CategoryLoader {
+export default class CategoryLoader {
   /**
    * Initalizes CategoryLoader class
    * @deprecated [please use static create methods to create an object]
    * @param {string} sourceUrl
    */
-  constructor (sourceUrl) {
+  constructor(sourceUrl) {
     this.sourceUrl = sourceUrl
   }
 
@@ -129,7 +120,7 @@ class CategoryLoader {
    * CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
    * @return {CategoryLoader}
    */
-  static createFromUrl (sourceUrl) {
+  static createFromUrl(sourceUrl) {
     return new CategoryLoader(sourceUrl)
   }
 
@@ -146,7 +137,7 @@ class CategoryLoader {
    * )
    * @return {CategoryLoader}
    */
-  static createFromTemplate (urlTemplate, languageCode) {
+  static createFromTemplate(urlTemplate, languageCode) {
     return CategoryLoader.createFromUrl(
       buildSourceUrl(urlTemplate, languageCode)
     )
@@ -157,12 +148,11 @@ class CategoryLoader {
    * @param {string} categoryTitle
    * @return {Promise} Array of type CategoryItem
    */
-  loadMembers (categoryTitle) {
+  loadMembers(categoryTitle) {
     return getCategoryItems(this.sourceUrl, categoryTitle, [], '')
   }
 }
 
-module.exports = CategoryLoader;
 </code></pre>
         </article>
     </section>
@@ -173,13 +163,13 @@ module.exports = CategoryLoader;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-mw-category.html">mw-category</a></li></ul><h3>Classes</h3><ul><li><a href="CategoryItem.html">CategoryItem</a></li><li><a href="CategoryLoader.html">CategoryLoader</a></li></ul><h3>Global</h3><ul><li><a href="global.html#buildSourceUrl">buildSourceUrl</a></li><li><a href="global.html#MwSources">MwSources</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-mw-category.html">mw-category</a></li></ul><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MwSources">MwSources</a></li><li><a href="global.html#createFromTemplate">createFromTemplate</a></li><li><a href="global.html#createFromUrl">createFromUrl</a></li><li><a href="global.html#loadMembers">loadMembers</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Tue Oct 20 2020 08:55:18 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Sun Nov 13 2022 20:00:36 GMT+0100 (Mitteleuropäische Normalzeit)
 </footer>
 
 <script> prettyPrint(); </script>

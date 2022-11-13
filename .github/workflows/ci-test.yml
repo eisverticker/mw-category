@@ -10,13 +10,13 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [15.x, 16.x, 18.x, 19.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -27,3 +27,4 @@ jobs:
     - run: npm ci
     - run: npm run lint
     - run: npm test
+    - run: node example.js

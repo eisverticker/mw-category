@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint index.js cli.js example.js lib/*.js test/*.js",
-    "jsdoc": "jsdoc index.js lib/* -d docs",
-    "update-docs": "npm run jsdoc && git add docs* && git commit -m \"docs: updated jsdoc\"",
+    "lint": "eslint index.js cli.js example.js lib/*.js test/*.js --max-warnings 0",
+    "lint:fix": "eslint index.js cli.js example.js lib/*.js test/*.js --fix --max-warnings 0",
+    "generate:docs": "jsdoc index.js lib/* -d docs",
+    "update-docs": "npm run generate:docs && git add docs* && git commit -m \"docs: updated jsdoc\"",
+    "preview:docs": "npx http-server docs",
     "release": "standard-version",
     "release:patch": "standard-version --release-as patch",
     "release:minor": "standard-version --release-as minor",
@@ -22,15 +24,40 @@
     "wikipedia",
     "categories"
   ],
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "npm test",
-      "pre-commit": "lint-staged"
-    }
+  "author": "Alexander Noack <eisverticker@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eisverticker/mw-category.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eisverticker/mw-category/issues"
+  },
+  "type": "module",
+  "dependencies": {
+    "commander": "^9.2.0",
+    "got": "^11.7.0",
+    "mustache": "^4.0.1",
+    "url-assembler": "^2.1.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^8.14.0",
+    "eslint-config-google": "^0.14.0",
+    "husky": "^7.0.4",
+    "jsdoc": "^4.0.0",
+    "lint-staged": "^12.4.0",
+    "mocha": "^9.2.2",
+    "standard-version": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "lint-staged": {
-    "*.js": "eslint --max-warnings 0"
+    "*.js": "eslint --quiet --fix --max-warnings 0"
   },
   "standard-version": {
     "types": [
@@ -67,29 +94,5 @@
         "hidden": true
       }
     ]
-  },
-  "author": "Alexander Noack <eisverticker@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/eisverticker/mw-category.git"
-  },
-  "dependencies": {
-    "commander": "^6.1.0",
-    "got": "^11.7.0",
-    "mustache": "^4.0.1",
-    "url-assembler": "^2.1.1"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "chai": "^4.1.0",
-    "chai-as-promised": "^7.1.1",
-    "eslint": "^7.11.0",
-    "husky": "^4.3.0",
-    "jsdoc": "^3.5.3",
-    "lint-staged": "^10.4.2",
-    "mocha": "^8.2.0",
-    "standard-version": "^9.0.0"
   }
 }

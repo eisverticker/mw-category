@@ -1,47 +1,47 @@
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const citiesInLuxembourg = require('./resources/en-wikipedia-citites-in-luxembourg.json')
-chai.use(chaiAsPromised)
-const expect = chai.expect
+import { use, expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+use(chaiAsPromised)
 
-const MwCategory = require('../index.js')
+import { loadJsonTestResource } from './test-utils.js'
+import { CategoryLoader, MwSources } from '../index.js'
 
-const CategoryLoader = MwCategory.CategoryLoader
-const MwSources = MwCategory.MwSources
+const citiesInLuxembourg = loadJsonTestResource('en-wikipedia-citites-in-luxembourg.json')
 
-describe('#loadMembers()', function() {
-  it('should load category members from wikipedia without an error', function() {
-    let loader = CategoryLoader.createFromTemplate(MwSources.Wikipedia, 'en');
-    return expect(
-      loader.loadMembers('Category:Cities_in_Luxembourg')
-    ).to.eventually.deep.equal(citiesInLuxembourg);
-  });
+describe('#loadMembers()', () => {
+  it('should load category members from wikipedia without an error', async () => {
+    const loader = CategoryLoader.createFromTemplate(MwSources.wikipedia, 'en')
+    const actualMembers = await loader.loadMembers('Category:Cities_in_Luxembourg')
+    expect(actualMembers).to.deep.equal(citiesInLuxembourg)
+  })
 
-  it('should do the same for createFromUrl', function() {
-    let loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php');
-    return expect(
-      loader.loadMembers('Category:Cities_in_Luxembourg')
-    ).to.be.fulfilled;
-  });
+  it('should load cities of luxembourg by using createFromUrl', async () => {
+    const loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
+    const actualMembers = await loader.loadMembers('Category:Cities_in_Luxembourg')
+    expect(actualMembers).to.be.an('array')
+    expect(actualMembers).to.have.length(16)
+    expect(actualMembers.some((item) => item.title === 'Differdange')).to.be.true
+  })
 
-  it('should load the category members from wiktionary without an error', function() {
-    let loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en');
-    return expect(
-      loader.loadMembers('Category:Spanish basic words')
-    ).to.be.fulfilled;
-  });
+  it('should load category members from wiktionary without an error', async () => {
+    const loader = CategoryLoader.createFromTemplate(MwSources.wiktionary, 'en')
+    const actualMembers = await loader.loadMembers('Category:Spanish_given_names')
+    expect(actualMembers).to.be.an('array')
+    expect(actualMembers).to.have.length.greaterThan(0)
+    expect(actualMembers.some((item) => item.title === 'Fernando')).to.be.true
+  })
 
   it('should throw an error because it is no category', function() {
-    let loader = CategoryLoader.createFromTemplate(MwSources.Wikipedia, 'en');
+    const loader = CategoryLoader.createFromTemplate(MwSources.wikipedia, 'en')
     return expect(
       loader.loadMembers('Luxembourg')
-    ).to.be.rejectedWith('response-body-invalid');
-  });
+    ).to.be.rejectedWith('response-body-invalid')
+  })
 
-  it('should throw an error because remote server does not exist', function() {
-    let loader = CategoryLoader.createFromUrl('https://ef.xzsdad.org/w/apdi.php');
+  it('should throw an error because remote server does not exist', () => {
+    const loader = CategoryLoader.createFromUrl('https://ef.xzsdad.org/w/apdi.php')
     return expect(
       loader.loadMembers('Luxembourg')
-    ).to.be.rejected;
-  });
-});
+    ).to.be.rejected
+  })
+})
+

@@ -1,22 +1,26 @@
-const MwCategory = require('./index.js')
+/* eslint-disable no-console */
 
-const CategoryLoader = MwCategory.CategoryLoader
-const MwSources = MwCategory.MwSources
+import { CategoryLoader, MwSources } from './index.js'
 
-let loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en')
-//let loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
+const loader = CategoryLoader.createFromTemplate(MwSources.wiktionary, 'en')
+// const loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
 
-loader.loadMembers('Category:Spanish basic words')
-  .then(
-    (members) => {
-      members.forEach(
-        (page) => {
-          console.log('page id', page.id)
-          console.log('page title', page.title)
-        }
-      )
-    }
-  )
-  .catch(
-    (error) => console.log('error: could not load members', error)
-  )
+/**
+ * @return {void}
+ */
+async function printSpanishGivenNames() {
+  try {
+    const members = await loader.loadMembers('Category:Spanish_given_names')
+    members.filter(
+      (member) => !member.title.startsWith('Category:')
+    ).forEach(
+      (member) => {
+        console.log(`${member.title} (${member.id})`)
+      }
+    )
+  } catch (error) {
+    console.log('error: could not load members', error)
+  }
+}
+
+printSpanishGivenNames()

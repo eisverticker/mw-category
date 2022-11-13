@@ -1,13 +1,20 @@
 {
     "env": {
-        "es6": true,
         "node": true,
-        "mocha": true
+        "mocha": true,
+        "es6": true
     },
-    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "extends": ["eslint:recommended", "google"],
     "rules": {
+        "object-curly-spacing": ["error", "always"],
+        "require-await": "error",
+        "no-console": "warn",
         "indent": [
-            "error",
+            "warn",
             2
         ],
         "linebreak-style": [
@@ -15,9 +22,11 @@
             "unix"
         ],
         "quotes": [
-            "error",
+            "warn",
             "single"
         ],
+        "semi": ["warn", "never"],
+        "max-len": ["warn", 100],
         "valid-jsdoc": [2, {
           "requireParamDescription": false,
           "requireReturnDescription": false,
@@ -30,6 +39,7 @@
             "MethodDefinition": true,
             "ClassDeclaration": true
           }
-        }]
+        }],
+        "comma-dangle": ["warn", "only-multiline"]
     }
 }

@@ -1,36 +1,63 @@
 #!/usr/bin/env node
-const program = require('commander')
-const mwc = require('./index.js')
 
-const CategoryLoader = mwc.CategoryLoader;
+/* eslint-disable no-console */
 
-// use commander to describe and parse the command (arguments and options)
+import { readFileSync } from 'fs'
+import { fileURLToPath } from 'url'
+import path from 'path'
+import { program } from 'commander'
+import { CategoryLoader, MwSources } from './index.js'
+
+const packageJsonPath = path.join(fileURLToPath(import.meta.url), '../package.json')
+const { version } = JSON.parse(readFileSync(packageJsonPath))
+
+/**
+ * @param {string} source
+ * @return {boolean}
+ */
+function isTemplateSource(source) {
+  return !source.startsWith('http')
+}
+
 program
-  .version('1.2.2')
-  .arguments('<url> <title>')
+  .version(version)
+  .arguments('<source> <title>')
   .option( '-c, --csv', 'Make output csv compatible')
-  .action( function(url, title, env) {
-    // process category
-    let loader = CategoryLoader.createFromUrl(url)
-    // we are trying to load the category members here and just
-    // print the title of it
-    // if an error occurs we print a generic error
-    loader.loadMembers(title)
-      .then(
-        (members) => {
-          members.forEach(
-            (item) => {
-              // csv mode --> add quotation marks
-              if(env.csv) {
-                item.title = '"' + item.title + '"';
-              }
-              console.log(item.title)
-            }
-          )
+  .action( async (source, title, env) => {
+    let members
+    let loader
+
+    if (isTemplateSource(source)) {
+      const sourceParts = source.split(':')
+      const mwSourceId = sourceParts.shift()
+      const languageCode = sourceParts.shift() || 'en'
+      const url = MwSources[mwSourceId]
+      if (!url) {
+        console.error('error', `could not find a template for '${mwSourceId}'`)
+        return
+      }
+      loader = CategoryLoader.createFromTemplate(url, languageCode)
+    } else {
+      loader = CategoryLoader.createFromUrl(source)
+    }
+
+    try {
+      members = await loader.loadMembers(title)
+    } catch (error) {
+      console.error('error', 'program was unable to load category members')
+      return
+    }
+
+    members.forEach(
+      (item) => {
+        // add quotation marks in csv mode
+        if (env.csv) {
+          console.log(`"${item.title}"`)
+          return
         }
-      )
-      .catch(
-        () => console.error('error', 'program was unable to load category members')
-      );
+
+        console.log(item.title)
+      }
+    )
   })
-  .parse(process.argv);
+  .parse(process.argv)
