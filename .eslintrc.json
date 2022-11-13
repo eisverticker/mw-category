@@ -14,7 +14,7 @@
         "require-await": "error",
         "no-console": "warn",
         "indent": [
-            "error",
+            "warn",
             2
         ],
         "linebreak-style": [
@@ -22,7 +22,7 @@
             "unix"
         ],
         "quotes": [
-            "error",
+            "warn",
             "single"
         ],
         "semi": ["warn", "never"],
