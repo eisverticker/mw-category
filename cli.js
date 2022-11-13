@@ -13,10 +13,10 @@ const { version } = JSON.parse(readFileSync(packageJsonPath))
 
 program
   .version(version)
-  .arguments('<url> <title>')
+  .arguments('<source> <title>')
   .option( '-c, --csv', 'Make output csv compatible')
-  .action( async (url, title, env) => {
-    const loader = CategoryLoader.createFromUrl(url)
+  .action( async (source, title, env) => {
+    const loader = CategoryLoader.createFromUrl(source)
 
     let members
     try {

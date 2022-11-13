@@ -2,7 +2,7 @@
 
 import { CategoryLoader, MwSources } from './index.js'
 
-const loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en')
+const loader = CategoryLoader.createFromTemplate(MwSources.wiktionary, 'en')
 // const loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
 
 /**

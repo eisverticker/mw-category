@@ -29,7 +29,7 @@ And use the module like this:
 ```javascript
 import { CategoryLoader, MwSources } from 'mw-category'
 
-let loader = CategoryLoader.createFromTemplate(MwSources.Wiktionary, 'en')
+let loader = CategoryLoader.createFromTemplate(MwSources.wiktionary, 'en')
 //  let loader = CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')
 
 try {
