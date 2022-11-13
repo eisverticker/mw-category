@@ -170,7 +170,7 @@
     
 
     
-    <h4 class="name" id="buildSourceUrl"><span class="type-signature"></span>buildSourceUrl<span class="signature">(urlMustacheTemplate, mwLanguageCode)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="createFromTemplate"><span class="type-signature"></span>createFromTemplate<span class="signature">(urlTemplate, languageCode)</span><span class="type-signature"> &rarr; {CategoryLoader}</span></h4>
     
 
     
@@ -178,8 +178,9 @@
 
 
 <div class="description">
-    Builds source urls for common mediawiki projects
-NOTE: the urls may change and thus they might be outdated
+    Creates a CategoryLoader object from an language-independent
+url-template (mustache style).
+Common templates are available in exported member MwSources
 </div>
 
 
@@ -215,7 +216,7 @@ NOTE: the urls may change and thus they might be outdated
 
         <tr>
             
-                <td class="name"><code>urlMustacheTemplate</code></td>
+                <td class="name"><code>urlTemplate</code></td>
             
 
             <td class="type">
@@ -231,14 +232,177 @@ NOTE: the urls may change and thus they might be outdated
 
             
 
-            <td class="description last"></td>
+            <td class="description last">mustache syntax</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>mwLanguageCode</code></td>
+                <td class="name"><code>languageCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">mediawiki compatible language code</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_category-loader.js.html">lib/category-loader.js</a>, <a href="lib_category-loader.js.html#line112">line 112</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">CategoryLoader</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>CategoryLoader.createFromTemplate(
+  'https://{{language}}.wikipedia.org/w/api.php',
+  'en'
+)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createFromUrl"><span class="type-signature"></span>createFromUrl<span class="signature">(sourceUrl)</span><span class="type-signature"> &rarr; {CategoryLoader}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates a CategoryLoader object from an complete url to the api
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sourceUrl</code></td>
             
 
             <td class="type">
@@ -295,7 +459,7 @@ NOTE: the urls may change and thus they might be outdated
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_build-source-url.js.html">lib/build-source-url.js</a>, <a href="lib_build-source-url.js.html#line11">line 11</a>
+        <a href="lib_category-loader.js.html">lib/category-loader.js</a>, <a href="lib_category-loader.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -331,7 +495,171 @@ NOTE: the urls may change and thus they might be outdated
     </dt>
     <dd>
         
+<span class="param-type">CategoryLoader</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>CategoryLoader.createFromUrl('https://en.wikipedia.org/w/api.php')</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="loadMembers"><span class="type-signature"></span>loadMembers<span class="signature">(categoryTitle)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Retrieves all category members (but not from their subcategories)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>categoryTitle</code></td>
+            
+
+            <td class="type">
+            
+                
 <span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_category-loader.js.html">lib/category-loader.js</a>, <a href="lib_category-loader.js.html#line123">line 123</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array of type CategoryItem
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
 
 
     </dd>
@@ -359,13 +687,13 @@ NOTE: the urls may change and thus they might be outdated
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-mw-category.html">mw-category</a></li></ul><h3>Classes</h3><ul><li><a href="CategoryItem.html">CategoryItem</a></li><li><a href="CategoryLoader.html">CategoryLoader</a></li></ul><h3>Global</h3><ul><li><a href="global.html#buildSourceUrl">buildSourceUrl</a></li><li><a href="global.html#MwSources">MwSources</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-mw-category.html">mw-category</a></li></ul><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MwSources">MwSources</a></li><li><a href="global.html#createFromTemplate">createFromTemplate</a></li><li><a href="global.html#createFromUrl">createFromUrl</a></li><li><a href="global.html#loadMembers">loadMembers</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Tue Oct 20 2020 08:55:18 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Sun Nov 13 2022 20:00:36 GMT+0100 (Mitteleuropäische Normalzeit)
 </footer>
 
 <script> prettyPrint(); </script>
