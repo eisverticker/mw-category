@@ -36,7 +36,7 @@
   "type": "module",
   "dependencies": {
     "commander": "^9.2.0",
-    "got": "^11.7.0",
+    "got": "^12.5.3",
     "mustache": "^4.0.1",
     "url-assembler": "^2.1.1"
   },
